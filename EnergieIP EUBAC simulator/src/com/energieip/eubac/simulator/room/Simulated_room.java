@@ -7,15 +7,27 @@ public class Simulated_room implements Runnable{
 	// Debug
 	public boolean DEBUG = true;
 	
+	
 	// Initial params
-	public int temp_room_inside_initial = 15;
-	public int temp_room_outside_initial = 5;
+	public double temp_room_inside_initial = 15.0; // °C
+	public double temp_room_outside_initial = 5.0; // °C
 	
-	public double room_size = 15; // superficie (m²)
-	public double room_height = 2.5; // hauteur du plafond (m)$
-	public double room_volume = room_size*room_height; // (m3)
+	public double room_L = 5; // Longueur (m)
+	public double room_l = 3; // largeur (m)
+	public double room_L_ext = room_L; // Longueur exposée sur l'exterieur (m)
+	public double room_l_ext = room_l; // largeur exposée sur l'exterieur (m)
+	public double room_surface = room_L * room_l; // superficie (m²)
+	public double room_height = 2.5; // hauteur du plafond (m)
+	public double room_volume = room_surface*room_height; // (m3)
+	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m²) superficie exposée à l'exterieur
 	
+	public double coef_U = 0.33; // (W/m²K) coefficient de transmission thermique en W par m² exposé et par ° de difference
+	public double room_energy = 0;
 	
+	// external energy
+	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
+	public double human_number = 0; // nombre d'humain dans la piece
+	public double room_external_energy = 0; // (W) energie externe apportée dans la piece, i.e. ordinateur 
 	
 	// Thread
 	public Thread roomThread; // loop thread
