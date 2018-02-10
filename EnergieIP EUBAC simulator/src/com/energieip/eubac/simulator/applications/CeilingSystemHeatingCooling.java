@@ -6,6 +6,10 @@ import com.energieip.eubac.simulator.room.Simulated_room;
 public class CeilingSystemHeatingCooling {
 	
 	
+	// Ceiling def
+	public int total_system_energy = 1500; // (W)
+	
+	
 	public EnergieAPI energieAPI;
 	
 	/**
