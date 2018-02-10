@@ -28,9 +28,11 @@ public class Launch_Simulator {
 	 */
 	public Launch_Simulator() {
 		
-		simulated_room = new Simulated_room();
+		int HVAC_SA = 24; // HVAC regulator short address
 		
-		new CeilingSystemHeatingCooling(simulated_room);	
+		simulated_room = new Simulated_room();
+				
+		new CeilingSystemHeatingCooling(simulated_room, 24);	
 		
 		
 	}

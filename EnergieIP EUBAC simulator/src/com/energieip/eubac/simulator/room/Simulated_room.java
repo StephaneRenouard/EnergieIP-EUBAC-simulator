@@ -47,8 +47,9 @@ public class Simulated_room implements Runnable{
 	
 	
 	
-	
-	
+	/**
+	 * Thread
+	 */
 	@SuppressWarnings("static-access")
 	@Override
 	public void run() {
@@ -70,7 +71,8 @@ public class Simulated_room implements Runnable{
 			}
 
 		} // end while
-	}
+	
+	} // end of run() 
 		
 	
 
