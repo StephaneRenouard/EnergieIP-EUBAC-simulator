@@ -32,7 +32,7 @@ public class Launch_Simulator {
 		
 		simulated_room = new Simulated_room();
 				
-		new CeilingSystemHeatingCooling(simulated_room, 24);	
+		//new CeilingSystemHeatingCooling(simulated_room, HVAC_SA);	
 		
 		
 	}
