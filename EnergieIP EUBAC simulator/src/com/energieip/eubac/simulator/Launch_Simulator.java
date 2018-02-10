@@ -1,6 +1,7 @@
 package com.energieip.eubac.simulator;
 
 import com.energieip.eubac.simulator.applications.CeilingSystemHeatingCooling;
+import com.energieip.eubac.simulator.room.Simulated_room;
 
 /**
  * this class is the main entry point for launching simulator
@@ -9,6 +10,8 @@ import com.energieip.eubac.simulator.applications.CeilingSystemHeatingCooling;
  */
 public class Launch_Simulator {
 
+	Simulated_room simulated_room;
+	
 	/**
 	 * default main entry point
 	 * @param args
@@ -25,7 +28,10 @@ public class Launch_Simulator {
 	 */
 	public Launch_Simulator() {
 		
-		new CeilingSystemHeatingCooling();		
+		simulated_room = new Simulated_room();
+		
+		new CeilingSystemHeatingCooling(simulated_room);	
+		
 		
 	}
 
