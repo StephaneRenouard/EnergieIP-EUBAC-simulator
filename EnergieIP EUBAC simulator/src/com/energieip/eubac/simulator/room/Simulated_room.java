@@ -13,7 +13,7 @@ public class Simulated_room implements Runnable{
 	
 	public double room_size = 15; // superficie (m²)
 	public double room_height = 2.5; // hauteur du plafond (m)$
-	public double  room_volume = room_size*room_height; // (m3)
+	public double room_volume = room_size*room_height; // (m3)
 	
 	
 	
