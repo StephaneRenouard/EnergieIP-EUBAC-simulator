@@ -4,11 +4,8 @@ package com.energieip.eubac.mysql;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 
 import com.mysql.jdbc.Connection;
-
-import fr.handco.lib.time.Time;
 
 public class MysqlConnector {
 	
@@ -50,7 +47,7 @@ public class MysqlConnector {
 		    statement = connection.createStatement();
 		    
 		    // create table
-		    MysqlConnector.table_name = "test3";
+		    MysqlConnector.table_name = "test4";
 		    System.out.println("[MySQL] building table " + table_name);
 		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20))";
 		    System.out.println(MAKE_TABLE);
