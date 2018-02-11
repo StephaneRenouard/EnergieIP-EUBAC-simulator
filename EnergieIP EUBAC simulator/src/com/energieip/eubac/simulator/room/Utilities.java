@@ -31,8 +31,9 @@ public class Utilities {
 			joules_final = joules_init - transfert;
 			
 			temp_final = joules_final/(joule_factor*60);
-						
-			System.out.println("[computeDeperdition] iteration=" + i + " T(init)=" + temp_room_inside + " joules_init=" + joules_init + " joules_final="+joules_final + "T(final)="  + temp_final);
+			
+			// for debug purpose
+			//System.out.println("[computeDeperdition] iteration=" + i + " T(init)=" + temp_room_inside + " joules_init=" + joules_init + " joules_final="+joules_final + "T(final)="  + temp_final);
 			
 			temp_room_inside = temp_final;
 		}				
