@@ -1,6 +1,8 @@
 package com.energieip.eubac.simulator.room;
 
+import com.energieip.eubac.mysql.MysqlConnector;
 import com.energieip.eubac.simulator.applications.CeilingSystemHeatingCooling;
+import com.mysql.jdbc.Util;
 import com.sun.javafx.scene.layout.region.SliceSequenceConverter;
 
 import fr.handco.lib.time.Time;
@@ -174,6 +176,10 @@ public class Simulated_room implements Runnable{
 					// send temperature in 1/10 °C (EIP FORMAT)
 					ceilingSystemHeatingCooling.setRoomTemperature(Utilities.compute_temp_in_EiP_format(temp_room_inside));
 				}
+				
+				// store temp in MySQL DB
+				MysqlConnector.Insert_data_in_MySQL(Time.timeStamp("").trim(), Integer.toString(Utilities.compute_temp_in_EiP_format(temp_room_inside)));
+				
 				
 				// sleep
 				roomThread.sleep(SLEEPING_TIME);
