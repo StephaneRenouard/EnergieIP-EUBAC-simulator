@@ -9,7 +9,7 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	
 	
 	// Ceiling def
-	public int total_system_energy = 1500; // (W)
+	public int total_system_power = 1500; // (W)
 	
 	// EIP HVAC driver def
 	public int HVAC_SA = 0;
@@ -24,18 +24,50 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	
 	/**
 	 * Default constructor
-	 * @param simulated_room 
 	 */
-	public CeilingSystemHeatingCooling(Simulated_room simulated_room, int HVAC_SA) {
+	public CeilingSystemHeatingCooling(int _HVAC_SA) {
+		
+		// get SA as local
+		HVAC_SA = _HVAC_SA;
 		
 		// use EnergieIP API
 		energieAPI = new EnergieAPI();
 		
-		System.out.println("Watchdog=" + energieAPI.getWatchdog());
+		//System.out.println("Watchdog=" + energieAPI.getWatchdog());
+				
+	}
+	
+	/**
+	 * set Room temperature (in 1/10°C)
+	 * @param room_temp
+	 */
+	public void setRoomTemperature(int room_temp){
 		
-		//energieAPI.setData1(210);
+		// room temp must be in 1/10°C 
+		energieAPI.setData1(room_temp);
 		
+	}
+	
+	/**
+	 * get Valve positon
+	 * @return int
+	 */
+	public int getValvePosition() {
 		
+		// get valve position
+		int position = energieAPI.get_HVAC_input_0_10V(HVAC_SA);
+		
+		return position;
+		
+	}
+	
+	/**
+	 * return total system power in W
+	 * @return int
+	 */
+	public int getSystemPower(){
+		
+		return total_system_power;
 		
 	}
 
@@ -50,8 +82,6 @@ public class CeilingSystemHeatingCooling implements Runnable{
 		while (!Thread.interrupted()) {
 
 			try {	
-				
-				
 				
 				
 				// sleep
