@@ -32,10 +32,10 @@ public class Launch_Simulator {
 		CeilingSystemHeatingCooling ceilingSystemHeatingCooling = new CeilingSystemHeatingCooling(HVAC_SA);	
 		
 		
-		//simulated_room = new Simulated_room(ceilingSystemHeatingCooling);
+		simulated_room = new Simulated_room(ceilingSystemHeatingCooling);
 		
 		// Debug purpose
-		simulated_room = new Simulated_room();
+		//simulated_room = new Simulated_room();
 		
 		
 		
