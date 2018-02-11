@@ -1,7 +1,6 @@
 package com.energieip.eubac.simulator.applications;
 
 import com.energieip.api.EnergieAPI;
-import com.energieip.eubac.simulator.room.Simulated_room;
 
 import fr.handco.lib.time.Time;
 
@@ -9,7 +8,7 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	
 	
 	// Ceiling def
-	public int total_system_power = 1500; // (W)
+	public int total_system_power = 1000; // (W)
 	
 	// EIP HVAC driver def
 	public int HVAC_SA = 0;
