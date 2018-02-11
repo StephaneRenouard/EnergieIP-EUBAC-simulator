@@ -129,7 +129,9 @@ public class Utilities {
 	 * @return double
 	 */
 	public static double compute_application_energy( int _valve_position, int application_power, int sLEEPING_TIME) {
-	
+		
+		int iteration = sLEEPING_TIME/1000;
+		
 		// 512 => 51.2
 		double valve_position = _valve_position/10 ;
 		double valve_position2 = _valve_position%10;
@@ -139,9 +141,8 @@ public class Utilities {
 		double factor = valve_position/100; //(%)
 		
 		double power_from_system = factor * application_power; // in W
-		double energy_from_application = power_from_system * sLEEPING_TIME; // in J
-		
-		
+		double energy_from_application = power_from_system * iteration; // in J
+			
 		return energy_from_application;
 	}
 	
