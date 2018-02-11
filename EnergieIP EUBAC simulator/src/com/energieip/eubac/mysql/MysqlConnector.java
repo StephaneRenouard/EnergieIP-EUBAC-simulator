@@ -2,13 +2,23 @@ package com.energieip.eubac.mysql;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mysql.jdbc.Connection;
+
+import fr.handco.lib.time.Time;
 
 public class MysqlConnector {
 	
-	String url = "jdbc:mysql://51.254.141.145:3306/eubac";
-	String utilisateur = "java";
-	String motDePasse = "java";
-	java.sql.Connection connexion = null;
+	static String url = "jdbc:mysql://51.254.141.145:3306/eubac";
+	static String utilisateur = "java2";
+	static String motDePasse = "java2";
+	static Connection connection = null;
+	
+	static String table_name;
+	
+    static Statement statement;
+    
 	
 	/**
 	 * Default constructor
@@ -17,6 +27,7 @@ public class MysqlConnector {
 		
 		try {
 
+			System.out.println("loading connector");
 		    Class.forName( "com.mysql.jdbc.Driver" );
 
 		} catch ( ClassNotFoundException e ) {
@@ -28,25 +39,88 @@ public class MysqlConnector {
 		
 		
 		try {
-		    connexion = DriverManager.getConnection( url, utilisateur, motDePasse );
+			
+			System.out.println("trying to connect");
+		
+			connection =  (Connection) DriverManager.getConnection( url, utilisateur, motDePasse );
 
-		    /* Ici, nous placerons nos requêtes vers la BDD */
-		    /* ... */
-
+		    // create table 
+		    statement = connection.createStatement();
+		    
+		    // create table
+		    table_name = Time.timeStamp("").trim();
+		    System.out.println("[MySQL] building table " + table_name);
+		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20))";
+		    statement.executeUpdate(MAKE_TABLE);
+		    		    
+		    
+		    
+		    /*
+		    // add line
+		    System.out.println("adding first line");
+		    String id = Time.timeStamp("").trim();
+		    String value = "21.2";
+		    
+		    String statment = "INSERT INTO Test_Table(timestamp, value) VALUES ('"+id+"', '"+ value +"');";
+		    
+		    System.out.println(statment);
+		    
+		    statement.executeUpdate(statment);
+		    
+		    statement.executeUpdate("INSERT INTO Test_Table(timestamp, value) VALUES ('2019', '23');");
+		    
+		    System.out.println("adding second line");		    
+		    id  = Time.timeStamp("");
+		    value = "21.2";
+		    //statement.executeUpdate("insert into Test_Table(timestamp, value) values("+id+", '"+ value +"');");
+		    */
+		   
 		} catch ( SQLException e ) {
 		    /* Gérer les éventuelles erreurs ici */
 		} finally {
-		    if ( connexion != null )
+		    if ( connection != null )
 		        try {
+		        	
+		        	System.out.println("closing everything");
+		        	
+		        	 // close statement 
+				    statement.close();
+				    		        	
 		            /* Fermeture de la connexion */
-		            connexion.close();
+				    connection.close();
 		        } catch ( SQLException ignore ) {
 		            /* Si une erreur survient lors de la fermeture, il suffit de l'ignorer. */
 		        }
 		}
-		
-		
-		
+			
+	} // end of constructor
+	
+	public static void Insert_data_in_MySQL(String value1, String value2){
+		 try {
+			connection =  (Connection) DriverManager.getConnection( url, utilisateur, motDePasse );
+			statement = connection.createStatement();
+			
+			String statment = "INSERT INTO " + table_name + " (timestamp, value) VALUES ('"+value1+"', '"+ value2 +"');";
+			statement.executeUpdate(statment);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+		    if ( connection != null )
+		        try {
+		        	
+		        	
+		        	 // close statement 
+				    statement.close();
+				    		        	
+		            /* Fermeture de la connexion */
+				    connection.close();
+		        } catch ( SQLException ignore ) {
+		            /* Si une erreur survient lors de la fermeture, il suffit de l'ignorer. */
+		        }
+		}
+		 
 	}
 
-}
+} // end of class

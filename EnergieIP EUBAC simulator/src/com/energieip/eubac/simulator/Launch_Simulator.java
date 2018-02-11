@@ -30,12 +30,13 @@ public class Launch_Simulator {
 	public Launch_Simulator() {
 		
 		// use MySQL to store results
-		MysqlConnector mysqlConnector = new MysqlConnector();
+		new MysqlConnector();
 		
+		// launch application
 		int HVAC_SA = 24; // HVAC regulator short address
 		CeilingSystemHeatingCooling ceilingSystemHeatingCooling = new CeilingSystemHeatingCooling(HVAC_SA);	
 		
-		
+		// launch simulated room
 		simulated_room = new Simulated_room(ceilingSystemHeatingCooling);
 		
 		// Debug purpose
