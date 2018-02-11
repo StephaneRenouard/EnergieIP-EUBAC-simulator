@@ -121,24 +121,43 @@ public class Simulated_room implements Runnable{
 				
 				// compute t0 room energy
 				room_energy = Utilities.compute_Energy(temp_room_inside, joule_factor);
+				if(DEBUG){
+					System.out.println(Time.timeStamp("----------------------------------------------------------------------"));
+					System.out.println(Time.timeStamp("[Simulated room] initial energy=" + room_energy + " J"));
+				}
 								
 				// add human factors (in number of humans)
-				room_energy = room_energy + Utilities.compute_humans_energy(human_body_energy, human_number,SLEEPING_TIME);
+				double human_energy = Utilities.compute_humans_energy(human_body_energy, human_number,SLEEPING_TIME);
+				room_energy+=human_energy;
+				if(DEBUG){
+					System.out.println(Time.timeStamp("[Simulated room] human body energy=" + human_energy + " J"));
+				}
 				
 				// add external factors (in W)
-				room_energy = room_energy + Utilities.compute_external_factors_energy(room_external_energy, SLEEPING_TIME);
+				double ext_energy = Utilities.compute_external_factors_energy(room_external_energy, SLEEPING_TIME); 
+				room_energy+=ext_energy;
+				if(DEBUG){
+					System.out.println(Time.timeStamp("[Simulated room] ext energy=" + ext_energy + " J"));
+				}
 				
 				// add heating/cooling factors
 				if(application){
 					// valve position is in 1/10 (so have to be divided by 10)
 					int valve_position = ceilingSystemHeatingCooling.getValvePosition();
-					room_energy = room_energy + Utilities.compute_application_energy(valve_position, application_power, SLEEPING_TIME);
+					double application_energy = Utilities.compute_application_energy(valve_position, application_power, SLEEPING_TIME);
+					room_energy+=application_energy;
+					if(DEBUG){
+						System.out.println(Time.timeStamp("[Simulated room] application energy=" + application_energy + " J"));
+					}
 				}
 				
 				// then compute thermal transfers
 			    if(temp_room_inside>temp_room_outside){
 			    	// remove energy for outside transfer
 			    	room_energy = Utilities.compute_Inside_Outside_Energy_Transfert(room_energy, temp_room_outside, coef_U, room_surface_ext, SLEEPING_TIME, joule_factor );	    	
+			    	if(DEBUG){
+						System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "°C" + ")"));
+					}
 			    	
 			    }else if(temp_room_inside>temp_room_outside){
 			    	//TODO
@@ -148,7 +167,7 @@ public class Simulated_room implements Runnable{
 				
 			    temp_room_inside = Utilities.compute_temp_from_energy(room_energy, joule_factor);
 			    				
-				System.out.println(Time.timeStamp("[Simulated room] temp_inside=" + temp_room_inside));
+				System.out.println(Time.timeStamp("[Simulated room] TEMPERATURE INTERIEUR=" + temp_room_inside));
 				
 				// return room temp
 				if(application){
