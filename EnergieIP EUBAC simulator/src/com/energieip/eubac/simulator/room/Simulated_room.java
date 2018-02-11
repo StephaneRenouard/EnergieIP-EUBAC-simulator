@@ -1,5 +1,8 @@
 package com.energieip.eubac.simulator.room;
 
+import com.energieip.eubac.simulator.applications.CeilingSystemHeatingCooling;
+import com.sun.javafx.scene.layout.region.SliceSequenceConverter;
+
 import fr.handco.lib.time.Time;
 
 public class Simulated_room implements Runnable{
@@ -43,8 +46,13 @@ public class Simulated_room implements Runnable{
 	public double temp_room_inside = temp_room_inside_initial; // °C
 	public double temp_room_outside = temp_room_outside_initial; // °C
 		
-	//time
+	// time
 	public int time_factor = 1;
+	
+	// application
+	public boolean application=false;
+	public CeilingSystemHeatingCooling ceilingSystemHeatingCooling;
+	public int application_power; // (W) 
 	
 	// Thread
 	public Thread roomThread; // loop thread
@@ -53,6 +61,35 @@ public class Simulated_room implements Runnable{
 	
 	/**
 	 * Default constructor
+	 * @param ceilingSystemHeatingCooling 
+	 */
+	public Simulated_room(CeilingSystemHeatingCooling _ceilingSystemHeatingCooling) {
+		
+		// welcome aboard
+		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
+		System.out.println(Time.timeStamp("[Simulated room] STARTING SIMULATION" ));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + " °C"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + " °C"));
+		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/m²K"));
+		System.out.println(Time.timeStamp("[Simulated room] time factor=" + time_factor));
+		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
+		
+		
+		// add an external heating/cooling application
+		application = true;
+		ceilingSystemHeatingCooling = _ceilingSystemHeatingCooling; // set as local
+		application_power = ceilingSystemHeatingCooling.getSystemPower();
+		
+		
+		// launch thread
+		roomThread = new Thread(this);
+		roomThread.start();
+		
+	}
+	
+	/**
+	 * Debug constructor
+	 * 
 	 */
 	public Simulated_room() {
 		
@@ -86,13 +123,17 @@ public class Simulated_room implements Runnable{
 				room_energy = Utilities.compute_Energy(temp_room_inside, joule_factor);
 								
 				// add human factors (in number of humans)
-				room_energy = Utilities.compute_add_humans(room_energy, human_body_energy, human_number,SLEEPING_TIME);
+				room_energy = room_energy + Utilities.compute_humans_energy(human_body_energy, human_number,SLEEPING_TIME);
 				
 				// add external factors (in W)
-				room_energy = Utilities.compute_add_external_factors(room_energy, room_external_energy, SLEEPING_TIME);
+				room_energy = room_energy + Utilities.compute_external_factors_energy(room_external_energy, SLEEPING_TIME);
 				
 				// add heating/cooling factors
-				// TODO
+				if(application){
+					// valve position is in 1/10 (so have to be divided by 10)
+					int valve_position = ceilingSystemHeatingCooling.getValvePosition();
+					room_energy = room_energy + Utilities.compute_application_energy(valve_position, application_power, SLEEPING_TIME);
+				}
 				
 				// then compute thermal transfers
 			    if(temp_room_inside>temp_room_outside){
@@ -108,6 +149,12 @@ public class Simulated_room implements Runnable{
 			    temp_room_inside = Utilities.compute_temp_from_energy(room_energy, joule_factor);
 			    				
 				System.out.println(Time.timeStamp("[Simulated room] temp_inside=" + temp_room_inside));
+				
+				// return room temp
+				if(application){
+					// send temperature in 1/10 °C (EIP FORMAT)
+					ceilingSystemHeatingCooling.setRoomTemperature(Utilities.compute_temp_in_EiP_format(temp_room_inside));
+				}
 				
 				// sleep
 				roomThread.sleep(SLEEPING_TIME);

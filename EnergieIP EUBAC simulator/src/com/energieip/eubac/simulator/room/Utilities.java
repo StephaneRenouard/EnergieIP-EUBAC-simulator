@@ -77,15 +77,13 @@ public class Utilities {
 	 * @param sLEEPING_TIME 
 	 * @return
 	 */
-	public static double compute_add_humans(double room_energy, double human_body_energy, double human_number, int sLEEPING_TIME) {
+	public static double compute_humans_energy(double human_body_energy, double human_number, int sLEEPING_TIME) {
 		
 		int iteration = sLEEPING_TIME/1000;
 	
 		double energy_from_human = human_body_energy*iteration*human_number;
-		
-		room_energy = room_energy + energy_from_human;
-		
-		return room_energy;
+			
+		return energy_from_human;
 	}
 	
 	/**
@@ -95,15 +93,13 @@ public class Utilities {
 	 * @param sLEEPING_TIME
 	 * @return double
 	 */
-	public static double compute_add_external_factors(double room_energy, double room_external_energy,
-			int sLEEPING_TIME) {
+	public static double compute_external_factors_energy(double room_external_energy, int sLEEPING_TIME) {
 		
 		int iteration = sLEEPING_TIME/1000;
+		
 		double energy_from_external_factors = room_external_energy*iteration;
 		
-		room_energy = room_energy + energy_from_external_factors;
-		
-		return room_energy;
+		return energy_from_external_factors;
 	}
 	
 	
@@ -131,8 +127,7 @@ public class Utilities {
 	 * @param sLEEPING_TIME
 	 * @return double
 	 */
-	public static double compute_add_energy_from_application(double room_energy, int _valve_position,
-			int application_power, int sLEEPING_TIME) {
+	public static double compute_application_energy( int _valve_position, int application_power, int sLEEPING_TIME) {
 	
 		// 512 => 51.2
 		double valve_position = _valve_position/10 ;
@@ -142,10 +137,10 @@ public class Utilities {
 		
 		
 		double power_from_system = valve_position * application_power; // in W
-		double energy_from_system = power_from_system * sLEEPING_TIME; // in J
+		double energy_from_application = power_from_system * sLEEPING_TIME; // in J
 		
 		
-		return energy_from_system;
+		return energy_from_application;
 	}
 	
 
