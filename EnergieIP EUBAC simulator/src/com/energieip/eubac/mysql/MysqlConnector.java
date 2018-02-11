@@ -1,8 +1,10 @@
 package com.energieip.eubac.mysql;
 
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import com.mysql.jdbc.Connection;
 
@@ -15,7 +17,7 @@ public class MysqlConnector {
 	static String motDePasse = "java2";
 	static Connection connection = null;
 	
-	static String table_name;
+	static String table_name = "";
 	
     static Statement statement;
     
@@ -48,9 +50,10 @@ public class MysqlConnector {
 		    statement = connection.createStatement();
 		    
 		    // create table
-		    table_name = Time.timeStamp("").trim();
+		    MysqlConnector.table_name = "test3";
 		    System.out.println("[MySQL] building table " + table_name);
 		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20))";
+		    System.out.println(MAKE_TABLE);
 		    statement.executeUpdate(MAKE_TABLE);
 		    		    
 		    
@@ -100,7 +103,8 @@ public class MysqlConnector {
 			connection =  (Connection) DriverManager.getConnection( url, utilisateur, motDePasse );
 			statement = connection.createStatement();
 			
-			String statment = "INSERT INTO " + table_name + " (timestamp, value) VALUES ('"+value1+"', '"+ value2 +"');";
+			String statment = "INSERT INTO " + table_name + "(timestamp, value) VALUES ('"+value1+"', '"+ value2 +"');";
+			System.out.println(statment);
 			statement.executeUpdate(statment);
 			
 		} catch (SQLException e) {
