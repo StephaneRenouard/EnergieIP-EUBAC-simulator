@@ -1,7 +1,20 @@
 package com.energieip.eubac.simulator.room;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Utilities {
 
+	/**
+	 * compute energy transfer from inside to outside
+	 * @param room_energy
+	 * @param temp_room_outside
+	 * @param coef_U
+	 * @param room_surface_ext
+	 * @param sLEEPING_TIME
+	 * @param joule_factor
+	 * @return double
+	 */
 	public static double compute_Inside_Outside_Energy_Transfert(double room_energy, double temp_room_outside, double coef_U,
 			double room_surface_ext, int sLEEPING_TIME, double joule_factor) {
 		
@@ -29,6 +42,12 @@ public class Utilities {
 		return joules_final;
 	}
 
+	/**
+	 * compute temperature in °C from energy in Joules
+	 * @param room_energy
+	 * @param joule_factor
+	 * @return double
+	 */
 	public static double compute_temp_from_energy(double room_energy, double joule_factor) {
 		
 		double temp = room_energy/( joule_factor *60);
@@ -68,7 +87,14 @@ public class Utilities {
 		
 		return room_energy;
 	}
-
+	
+	/**
+	 * compute external factor
+	 * @param room_energy
+	 * @param room_external_energy
+	 * @param sLEEPING_TIME
+	 * @return double
+	 */
 	public static double compute_add_external_factors(double room_energy, double room_external_energy,
 			int sLEEPING_TIME) {
 		
@@ -78,6 +104,48 @@ public class Utilities {
 		room_energy = room_energy + energy_from_external_factors;
 		
 		return room_energy;
+	}
+	
+	
+	/**
+	 * transform temperature in EiP format (1/10°C)
+	 * @param temperature
+	 * @return int
+	 */
+	public static int compute_temp_in_EiP_format(double temperature){
+		
+		// temperature in EiP format are in 1/10°C
+		temperature = temperature*10;
+		DecimalFormat df = new DecimalFormat("#"); // #.# for 1 decimal
+		df.setRoundingMode(RoundingMode.HALF_EVEN);
+		String round_temp = df.format(temperature);
+				
+		return Integer.parseInt(round_temp);
+	}
+
+	/**
+	 * compute energy from HVAC application
+	 * @param room_energy
+	 * @param valve_position
+	 * @param application_power
+	 * @param sLEEPING_TIME
+	 * @return double
+	 */
+	public static double compute_add_energy_from_application(double room_energy, int _valve_position,
+			int application_power, int sLEEPING_TIME) {
+	
+		// 512 => 51.2
+		double valve_position = _valve_position/10 ;
+		double valve_position2 = _valve_position%10;
+		valve_position2 = valve_position2/10;
+		valve_position = valve_position + valve_position2;
+		
+		
+		double power_from_system = valve_position * application_power; // in W
+		double energy_from_system = power_from_system * sLEEPING_TIME; // in J
+		
+		
+		return energy_from_system;
 	}
 	
 
