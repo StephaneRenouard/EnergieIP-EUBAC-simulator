@@ -136,8 +136,9 @@ public class Utilities {
 		valve_position2 = valve_position2/10;
 		valve_position = valve_position + valve_position2;
 		
+		double factor = valve_position/100; //(%)
 		
-		double power_from_system = valve_position * application_power; // in W
+		double power_from_system = factor * application_power; // in W
 		double energy_from_application = power_from_system * sLEEPING_TIME; // in J
 		
 		
