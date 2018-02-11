@@ -19,7 +19,12 @@ public class TestValvePosition {
 		valve_position2 = valve_position2/10;
 		valve_position = valve_position + valve_position2;
 		
-		System.out.println(valve_position);
+		System.out.println("valve_position=" + valve_position);
+		
+		// should be divided by 100 (%)
+		double factor = valve_position/100;
+		
+		System.out.println("factor=" + factor);
 		
 	}
 
