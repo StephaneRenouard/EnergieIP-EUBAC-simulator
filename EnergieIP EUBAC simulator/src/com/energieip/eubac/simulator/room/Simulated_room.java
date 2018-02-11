@@ -26,21 +26,23 @@ public class Simulated_room implements Runnable{
 	
 	// coef
 	public double coef_U = 0.33; // (W/m²K) coefficient de transmission thermique en W par m² exposé et par ° de difference
-	public double room_energy = 0;
+	public double joule_factor = 1900;  // 1°C HU = 1900 joules, 1W = 1J/s
+	
+	// energy and power
+	public double room_energy = -1; // initial value 
 	
 	// external energy
 	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
 	public double human_number = 0; // nombre d'humain dans la piece
 	public double room_external_energy = 0; // (W) energie externe apportée dans la piece, i.e. ordinateur 
 	
-	
 	/*
-	 * simulation param
+	 * simulation params
 	 */
 	// temp
 	public double temp_room_inside = temp_room_inside_initial; // °C
 	public double temp_room_outside = temp_room_outside_initial; // °C
-	
+		
 	//time
 	public int time_factor = 1;
 	
@@ -78,9 +80,34 @@ public class Simulated_room implements Runnable{
 	public void run() {
 		while (!Thread.interrupted()) {
 
-			try {	
-							
-				System.out.println("[Simulated room] temp_inside=" + temp_room_inside);
+			try {				
+				
+				// compute t0 room energy
+				room_energy = Utilities.compute_Energy(temp_room_inside, joule_factor);
+								
+				// add human factors (in number of humans)
+				room_energy = Utilities.compute_add_humans(room_energy, human_body_energy, human_number,SLEEPING_TIME);
+				
+				// add external factors (in W)
+				room_energy = Utilities.compute_add_external_factors(room_energy, room_external_energy, SLEEPING_TIME);
+				
+				// add heating/cooling factors
+				// TODO
+				
+				// then compute thermal transfers
+			    if(temp_room_inside>temp_room_outside){
+			    	// remove energy for outside transfer
+			    	room_energy = Utilities.compute_Inside_Outside_Energy_Transfert(room_energy, temp_room_outside, coef_U, room_surface_ext, SLEEPING_TIME, joule_factor );	    	
+			    	
+			    }else if(temp_room_inside>temp_room_outside){
+			    	//TODO
+			    }else{ // equilibrium
+			    	// do nothing
+			    }
+				
+			    temp_room_inside = Utilities.compute_temp_from_energy(room_energy, joule_factor);
+			    				
+				System.out.println(Time.timeStamp("[Simulated room] temp_inside=" + temp_room_inside));
 				
 				// sleep
 				roomThread.sleep(SLEEPING_TIME);

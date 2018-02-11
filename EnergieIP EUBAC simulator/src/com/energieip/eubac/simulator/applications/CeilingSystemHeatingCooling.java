@@ -33,7 +33,8 @@ public class CeilingSystemHeatingCooling implements Runnable{
 		
 		System.out.println("Watchdog=" + energieAPI.getWatchdog());
 		
-		energieAPI.setData1(210);
+		//energieAPI.setData1(210);
+		
 		
 		
 	}
