@@ -30,11 +30,14 @@ public class Simulated_room implements Runnable{
 	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m²) superficie exposée à l'exterieur
 	
 	// coef
-	public double coef_U = 0.33; // (W/m²K) coefficient de transmission thermique en W par m² exposé et par ° de difference
+	public double coef_U = 1; // (W/m²K) coefficient de transmission thermique en W par m² exposé et par ° de difference (0.33)
 	public double joule_factor = 1900;  // 1°C HU = 1900 joules, 1W = 1J/s
 	
 	// energy and power
 	public double room_energy = -1; // initial value 
+	
+	// valve
+	public int valve_0 = 200;  // 200 (20%) is 0
 	
 	// external energy
 	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
@@ -146,7 +149,7 @@ public class Simulated_room implements Runnable{
 				if(application){
 					// valve position is in 1/10 (so have to be divided by 10)
 					int valve_position = ceilingSystemHeatingCooling.getValvePosition();
-					double application_energy = Utilities.compute_application_energy(valve_position, application_power, SLEEPING_TIME);
+					double application_energy = Utilities.compute_application_energy(valve_position-valve_0, application_power, SLEEPING_TIME);
 					room_energy+=application_energy;
 					if(DEBUG){
 						System.out.println(Time.timeStamp("[Simulated room] application energy=" + application_energy + " J"));

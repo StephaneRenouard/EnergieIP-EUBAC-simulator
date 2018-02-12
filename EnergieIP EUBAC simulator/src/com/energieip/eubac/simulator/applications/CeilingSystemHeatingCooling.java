@@ -8,7 +8,7 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	
 	
 	// Ceiling def
-	public int total_system_power = 1000; // (W)
+	public int total_system_power = 500; // (W)
 	
 	// EIP HVAC driver def
 	public int HVAC_SA = 0;
