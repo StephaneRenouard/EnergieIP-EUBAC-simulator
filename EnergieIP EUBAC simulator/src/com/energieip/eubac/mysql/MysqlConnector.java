@@ -47,9 +47,9 @@ public class MysqlConnector {
 		    statement = connection.createStatement();
 		    
 		    // create table
-		    MysqlConnector.table_name = "test13";
+		    MysqlConnector.table_name = "test14";
 		    System.out.println("[MySQL] building table " + table_name);
-		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20))";
+		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20), valve VARCHAR(20))";
 		    System.out.println(MAKE_TABLE);
 		    statement.executeUpdate(MAKE_TABLE);
 		    		    
@@ -95,12 +95,52 @@ public class MysqlConnector {
 			
 	} // end of constructor
 	
+	/**
+	 * insert values into DB
+	 * @param value1
+	 * @param value2
+	 */
 	public static void Insert_data_in_MySQL(String value1, String value2){
 		 try {
 			connection =  (Connection) DriverManager.getConnection( url, utilisateur, motDePasse );
 			statement = connection.createStatement();
 			
 			String statment = "INSERT INTO " + table_name + "(timestamp, value) VALUES ('"+value1+"', '"+ value2 +"');";
+			System.out.println(statment);
+			statement.executeUpdate(statment);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+		    if ( connection != null )
+		        try {
+		        	
+		        	
+		        	 // close statement 
+				    statement.close();
+				    		        	
+		            /* Fermeture de la connexion */
+				    connection.close();
+		        } catch ( SQLException ignore ) {
+		            /* Si une erreur survient lors de la fermeture, il suffit de l'ignorer. */
+		        }
+		}
+		 
+	}
+	
+	/**
+	 * insert values into DB
+	 * @param value1
+	 * @param value2
+	 * @param value3
+	 */
+	public static void Insert_data_in_MySQL(String value1, String value2, String value3){
+		 try {
+			connection =  (Connection) DriverManager.getConnection( url, utilisateur, motDePasse );
+			statement = connection.createStatement();
+			
+			String statment = "INSERT INTO " + table_name + "(timestamp, value, valve) VALUES ('"+value1+"', '"+ value2 +"', '" + value3 +"');";
 			System.out.println(statment);
 			statement.executeUpdate(statment);
 			
