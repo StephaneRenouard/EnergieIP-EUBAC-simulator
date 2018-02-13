@@ -16,7 +16,7 @@ public class Simulated_room implements Runnable{
 	 * Initial params
 	 */
 	// temp
-	public double temp_room_inside_initial = 18.0; // °C
+	public double temp_room_inside_initial = 19.0; // °C
 	public double temp_room_outside_initial = 5.0; // °C
 	
 	// room
