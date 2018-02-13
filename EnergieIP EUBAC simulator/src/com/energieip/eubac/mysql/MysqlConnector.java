@@ -47,7 +47,7 @@ public class MysqlConnector {
 		    statement = connection.createStatement();
 		    
 		    // create table
-		    MysqlConnector.table_name = "test15";
+		    MysqlConnector.table_name = "test20_c";
 		    System.out.println("[MySQL] building table " + table_name);
 		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20), valve VARCHAR(20))";
 		    System.out.println(MAKE_TABLE);

@@ -16,8 +16,8 @@ public class Simulated_room implements Runnable{
 	 * Initial params
 	 */
 	// temp
-	public double temp_room_inside_initial = 19.0; // °C
-	public double temp_room_outside_initial = 5.0; // °C
+	public double temp_room_inside_initial = 22.0; // °C
+	public double temp_room_outside_initial = 30.0; // °C
 	
 	// room
 	public double room_L = 5; // Longueur (m)
@@ -35,6 +35,9 @@ public class Simulated_room implements Runnable{
 	
 	// energy and power
 	public double room_energy = -1; // initial value 
+	
+	// application
+	boolean heating= false;
 	
 	// valve
 	public int valve_0 = 200;  // 200 (20%) is 0
@@ -153,7 +156,13 @@ public class Simulated_room implements Runnable{
 					// valve position is in 1/10 (so have to be divided by 10)
 					valve_position = ceilingSystemHeatingCooling.getValvePosition();
 					double application_energy = Utilities.compute_application_energy(valve_position-valve_0, application_power, SLEEPING_TIME);
-					room_energy+=application_energy;
+					
+					if(heating){
+						room_energy+=application_energy;
+					}else {// cooling
+						room_energy-=application_energy;
+					}	
+						
 					if(DEBUG){
 						System.out.println(Time.timeStamp("[Simulated room] application energy=" + application_energy + " J"));
 					}
