@@ -59,6 +59,9 @@ public class Simulated_room implements Runnable{
 	public CeilingSystemHeatingCooling ceilingSystemHeatingCooling;
 	public int application_power; // (W) 
 	
+	// valve position
+	public int valve_position;
+	
 	// Thread
 	public Thread roomThread; // loop thread
 	public int SLEEPING_TIME = 10000; // allow a break for thread (every 10 sec)
@@ -148,7 +151,7 @@ public class Simulated_room implements Runnable{
 				// add heating/cooling factors
 				if(application){
 					// valve position is in 1/10 (so have to be divided by 10)
-					int valve_position = ceilingSystemHeatingCooling.getValvePosition();
+					valve_position = ceilingSystemHeatingCooling.getValvePosition();
 					double application_energy = Utilities.compute_application_energy(valve_position-valve_0, application_power, SLEEPING_TIME);
 					room_energy+=application_energy;
 					if(DEBUG){
@@ -181,7 +184,7 @@ public class Simulated_room implements Runnable{
 				}
 				
 				// store temp in MySQL DB
-				MysqlConnector.Insert_data_in_MySQL(Time.timeStamp("").trim(), Integer.toString(Utilities.compute_temp_in_EiP_format(temp_room_inside)));
+				MysqlConnector.Insert_data_in_MySQL(Time.timeStamp("").trim(), Integer.toString(Utilities.compute_temp_in_EiP_format(temp_room_inside)), Integer.toString(valve_position));
 				
 				
 				// sleep
