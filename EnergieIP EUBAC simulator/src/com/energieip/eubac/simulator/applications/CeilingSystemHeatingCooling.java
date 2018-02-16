@@ -1,6 +1,7 @@
 package com.energieip.eubac.simulator.applications;
 
 import com.energieip.api.EnergieAPI;
+import com.energieip.eubac.simulator.valve.Valve_6;
 
 import fr.handco.lib.time.Time;
 
@@ -8,7 +9,7 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	
 	
 	// Ceiling def
-	public int total_system_power = 500; // (W)
+	public int total_system_power = 600; // (W)
 	
 	// EIP HVAC driver def
 	public int HVAC_SA = 0;
@@ -37,12 +38,12 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	}
 	
 	/**
-	 * set Room temperature (in 1/10°C)
+	 * set Room temperature (in 1/10ï¿½C)
 	 * @param room_temp
 	 */
 	public void setRoomTemperature(int room_temp){
 		
-		// room temp must be in 1/10°C 
+		// room temp must be in 1/10ï¿½C 
 		energieAPI.setData1(room_temp);
 		
 	}
@@ -51,10 +52,24 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	 * get Valve positon
 	 * @return int
 	 */
-	public int getValvePosition() {
+	public int getValvePosition(boolean heating) {
+		
+		int position=0;
+		int max = 0;;
+		int min = 0;
 		
 		// get valve position
-		int position = energieAPI.get_HVAC_input_0_10V(HVAC_SA);
+		int position_real = energieAPI.get_HVAC_input_0_10V(HVAC_SA);
+		
+		if(heating){
+			max = Valve_6.VALVE_HOT_100;
+			min = Valve_6.VALVE_HOT_0;
+		}else {
+			max = Valve_6.VALVE_COLD_100;
+			min = Valve_6.VALVE_COLD_0;
+		}
+		
+		position = (100/(max-min))*(position_real-min);
 		
 		return position;
 		
