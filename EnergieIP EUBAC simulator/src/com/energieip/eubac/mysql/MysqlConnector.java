@@ -18,6 +18,7 @@ public class MysqlConnector {
 	
     static Statement statement;
     
+    final String TABLE_NAME = "eubac_h_1";
 	
 	/**
 	 * Default constructor
@@ -47,7 +48,7 @@ public class MysqlConnector {
 		    statement = connection.createStatement();
 		    
 		    // create table
-		    MysqlConnector.table_name = "test20_c";
+		    MysqlConnector.table_name = TABLE_NAME;
 		    System.out.println("[MySQL] building table " + table_name);
 		    String MAKE_TABLE = "CREATE TABLE " + table_name + " (timestamp VARCHAR(20) PRIMARY KEY, value VARCHAR(20), valve VARCHAR(20))";
 		    System.out.println(MAKE_TABLE);
@@ -76,7 +77,7 @@ public class MysqlConnector {
 		    */
 		   
 		} catch ( SQLException e ) {
-		    /* Gérer les éventuelles erreurs ici */
+		    /* Gï¿½rer les ï¿½ventuelles erreurs ici */
 		} finally {
 		    if ( connection != null )
 		        try {
