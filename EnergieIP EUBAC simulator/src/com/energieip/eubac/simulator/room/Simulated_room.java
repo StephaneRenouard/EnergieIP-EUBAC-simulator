@@ -2,11 +2,15 @@ package com.energieip.eubac.simulator.room;
 
 import com.energieip.eubac.mysql.MysqlConnector;
 import com.energieip.eubac.simulator.applications.CeilingSystemHeatingCooling;
-import com.mysql.jdbc.Util;
-import com.sun.javafx.scene.layout.region.SliceSequenceConverter;
 
 import fr.handco.lib.time.Time;
 
+
+/**
+ * Simulated room
+ * @author stephane
+ *
+ */
 public class Simulated_room implements Runnable{
 
 	// Debug
@@ -16,54 +20,51 @@ public class Simulated_room implements Runnable{
 	 * Initial params
 	 */
 	// temp
-	public double temp_room_inside_initial = 22.0; // °C
-	public double temp_room_outside_initial = 30.0; // °C
+	public double temp_room_inside_initial = 20.0; // ï¿½C
+	public double temp_room_outside_initial = 5.0; // ï¿½C
 	
 	// room
-	public double room_L = 5; // Longueur (m)
+	public double room_L = 4; // Longueur (m)
 	public double room_l = 3; // largeur (m)
-	public double room_L_ext = room_L; // Longueur exposée sur l'exterieur (m)
-	public double room_l_ext = room_l; // largeur exposée sur l'exterieur (m)
-	public double room_surface = room_L * room_l; // superficie (m²)
-	public double room_height = 2.5; // hauteur du plafond (m)
+	public double room_L_ext = room_L; // Longueur exposï¿½e sur l'exterieur (m)
+	public double room_l_ext = room_l; // largeur exposï¿½e sur l'exterieur (m)
+	public double room_surface = room_L * room_l; // superficie (mï¿½)
+	public double room_height = 2.8; // hauteur du plafond (m)
 	public double room_volume = room_surface*room_height; // (m3)
-	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m²) superficie exposée à l'exterieur
+	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (mï¿½) superficie exposï¿½e ï¿½ l'exterieur
 	
 	// coef
-	public double coef_U = 1; // (W/m²K) coefficient de transmission thermique en W par m² exposé et par ° de difference (0.33)
-	public double joule_factor = 1900;  // 1°C HU = 1900 joules, 1W = 1J/s
+	public double coef_U = 0.33; // (W/mï¿½K) coefficient de transmission thermique en W par mï¿½ exposï¿½ et par ï¿½ de difference (0.33)
+	public double joule_factor = 1900;  // 1ï¿½C HU = 1900 joules, 1W = 1J/s
 	
 	// energy and power
 	public double room_energy = -1; // initial value 
 	
 	// application
-	boolean heating= false;
-	
-	// valve
-	public int valve_0 = 200;  // 200 (20%) is 0
-	
+	boolean heating= true;
+
 	// external energy
 	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
 	public double human_number = 0; // nombre d'humain dans la piece
-	public double room_external_energy = 0; // (W) energie externe apportée dans la piece, i.e. ordinateur 
+	public double room_external_energy = 0; // (W) energie externe apportï¿½e dans la piece, i.e. ordinateur 
 	
 	/*
 	 * simulation params
 	 */
 	// temp
-	public double temp_room_inside = temp_room_inside_initial; // °C
-	public double temp_room_outside = temp_room_outside_initial; // °C
+	public double temp_room_inside = temp_room_inside_initial; // ï¿½C
+	public double temp_room_outside = temp_room_outside_initial; // ï¿½C
 		
 	// time
 	public int time_factor = 1;
 	
 	// application
-	public boolean application=false;
+	public boolean application;
 	public CeilingSystemHeatingCooling ceilingSystemHeatingCooling;
 	public int application_power; // (W) 
 	
 	// valve position
-	public int valve_position;
+	public int valve_percentage; // opening percentage (%)
 	
 	// Thread
 	public Thread roomThread; // loop thread
@@ -79,15 +80,15 @@ public class Simulated_room implements Runnable{
 		// welcome aboard
 		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
 		System.out.println(Time.timeStamp("[Simulated room] STARTING SIMULATION" ));
-		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + " °C"));
-		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + " °C"));
-		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/m²K"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + " ï¿½C"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + " ï¿½C"));
+		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/mï¿½K"));
 		System.out.println(Time.timeStamp("[Simulated room] time factor=" + time_factor));
 		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
 		
 		
 		// add an external heating/cooling application
-		application = true;
+		application = false;
 		ceilingSystemHeatingCooling = _ceilingSystemHeatingCooling; // set as local
 		application_power = ceilingSystemHeatingCooling.getSystemPower();
 		
@@ -106,9 +107,9 @@ public class Simulated_room implements Runnable{
 		
 		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
 		System.out.println(Time.timeStamp("[Simulated room] STARTING SIMULATION" ));
-		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + " °C"));
-		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + " °C"));
-		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/m²K"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + " ï¿½C"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + " ï¿½C"));
+		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/mï¿½K"));
 		System.out.println(Time.timeStamp("[Simulated room] time factor=" + time_factor));
 		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
 		
@@ -154,8 +155,8 @@ public class Simulated_room implements Runnable{
 				// add heating/cooling factors
 				if(application){
 					// valve position is in 1/10 (so have to be divided by 10)
-					valve_position = ceilingSystemHeatingCooling.getValvePosition();
-					double application_energy = Utilities.compute_application_energy(valve_position-valve_0, application_power, SLEEPING_TIME);
+					valve_percentage = ceilingSystemHeatingCooling.getValvePosition(heating);
+					double application_energy = Utilities.compute_application_energy(valve_percentage, application_power, SLEEPING_TIME);
 					
 					if(heating){
 						room_energy+=application_energy;
@@ -173,7 +174,7 @@ public class Simulated_room implements Runnable{
 			    	// remove energy for outside transfer
 			    	room_energy = Utilities.compute_Inside_Outside_Energy_Transfert(room_energy, temp_room_outside, coef_U, room_surface_ext, SLEEPING_TIME, joule_factor );	    	
 			    	if(DEBUG){
-						System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "°C" + ")"));
+						System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "ï¿½C" + ")"));
 					}
 			    	
 			    }else if(temp_room_inside>temp_room_outside){
@@ -188,12 +189,12 @@ public class Simulated_room implements Runnable{
 				
 				// return room temp
 				if(application){
-					// send temperature in 1/10 °C (EIP FORMAT)
+					// send temperature in 1/10 ï¿½C (EIP FORMAT)
 					ceilingSystemHeatingCooling.setRoomTemperature(Utilities.compute_temp_in_EiP_format(temp_room_inside));
 				}
 				
 				// store temp in MySQL DB
-				MysqlConnector.Insert_data_in_MySQL(Time.timeStamp("").trim(), Integer.toString(Utilities.compute_temp_in_EiP_format(temp_room_inside)), Integer.toString(valve_position));
+				MysqlConnector.Insert_data_in_MySQL(Time.timeStamp("").trim(), Integer.toString(Utilities.compute_temp_in_EiP_format(temp_room_inside)), Integer.toString(valve_percentage));
 				
 				
 				// sleep
