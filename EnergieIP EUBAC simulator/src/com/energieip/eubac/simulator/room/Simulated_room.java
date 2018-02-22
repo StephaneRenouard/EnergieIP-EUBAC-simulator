@@ -20,8 +20,8 @@ public class Simulated_room implements Runnable{
 	 * Initial params
 	 */
 	// temp
-	public double temp_room_inside_initial = 20.0; // �C
-	public double temp_room_outside_initial = 5.0; // �C
+	public double temp_room_inside_initial = 23.0; // �C
+	public double temp_room_outside_initial = 30.0; // �C
 	
 	// room
 	public double room_L = 4; // Longueur (m)
@@ -41,7 +41,7 @@ public class Simulated_room implements Runnable{
 	public double room_energy = -1; // initial value 
 	
 	// application
-	boolean heating= true;
+	boolean heating= false;
 
 	// external energy
 	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
@@ -80,9 +80,9 @@ public class Simulated_room implements Runnable{
 		// welcome aboard
 		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
 		System.out.println(Time.timeStamp("[Simulated room] STARTING SIMULATION" ));
-		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + " �C"));
-		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + " �C"));
-		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/m�K"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_inside_initial=" + temp_room_inside_initial + "C"));
+		System.out.println(Time.timeStamp("[Simulated room] temp_room_outside_initial=" + temp_room_outside_initial + "C"));
+		System.out.println(Time.timeStamp("[Simulated room] coef U=" + coef_U+ " W/m2 dK"));
 		System.out.println(Time.timeStamp("[Simulated room] time factor=" + time_factor));
 		System.out.println(Time.timeStamp("[Simulated room] -----------------------------------------------------------------"));
 		
@@ -170,26 +170,22 @@ public class Simulated_room implements Runnable{
 				}
 				
 				// then compute thermal transfers
-			    if(temp_room_inside>temp_room_outside){
+			  
 			    	// remove energy for outside transfer
 			    	room_energy = Utilities.compute_Inside_Outside_Energy_Transfert(room_energy, temp_room_outside, coef_U, room_surface_ext, SLEEPING_TIME, joule_factor );	    	
 			    	if(DEBUG){
-						System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "�C" + ")"));
+						System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "C" + ")"));
 					}
 			    	
-			    }else if(temp_room_inside>temp_room_outside){
-			    	//TODO
-			    }else{ // equilibrium
-			    	// do nothing
-			    }
-				
+			  	
+			  
 			    temp_room_inside = Utilities.compute_temp_from_energy(room_energy, joule_factor);
 			    				
 				System.out.println(Time.timeStamp("[Simulated room] TEMPERATURE INTERIEUR=" + temp_room_inside));
 				
 				// return room temp
 				if(application){
-					// send temperature in 1/10 �C (EIP FORMAT)
+					// send temperature in 1/10 C (EIP FORMAT)
 					ceilingSystemHeatingCooling.setRoomTemperature(Utilities.compute_temp_in_EiP_format(temp_room_inside));
 				}
 				

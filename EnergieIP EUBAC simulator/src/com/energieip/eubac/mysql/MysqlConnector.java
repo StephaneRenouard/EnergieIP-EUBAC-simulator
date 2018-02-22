@@ -18,7 +18,7 @@ public class MysqlConnector {
 	
     static Statement statement;
     
-    final String TABLE_NAME = "eubac_h_1";
+    final String TABLE_NAME = "eubac_c_2";
 	
 	/**
 	 * Default constructor
