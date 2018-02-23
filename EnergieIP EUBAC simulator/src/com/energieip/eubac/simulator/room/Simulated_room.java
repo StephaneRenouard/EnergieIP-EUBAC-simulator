@@ -34,7 +34,7 @@ public class Simulated_room implements Runnable{
 	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m�) superficie expos�e � l'exterieur
 	
 	// coef
-	public double coef_U = 1; // (W/m�K) coefficient de transmission thermique en W par m� expos� et par � de difference (0.33)
+	public double coef_U = 0.66; // (W/m�K) coefficient de transmission thermique en W par m� expos� et par � de difference (0.33)
 	public double joule_factor = 1900;  // 1�C HU = 1900 joules, 1W = 1J/s
 	
 	// energy and power
