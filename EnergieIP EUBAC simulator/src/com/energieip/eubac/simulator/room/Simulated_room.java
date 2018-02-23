@@ -20,8 +20,8 @@ public class Simulated_room implements Runnable{
 	 * Initial params
 	 */
 	// temp
-	public double temp_room_inside_initial = 23.0; // °C
-	public double temp_room_outside_initial = 30.0; // �C
+	public double temp_room_inside_initial = 20.0; // °C
+	public double temp_room_outside_initial = 5.0; // �C
 	
 	// room
 	public double room_L = 4; // Longueur (m)
@@ -34,14 +34,14 @@ public class Simulated_room implements Runnable{
 	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m�) superficie expos�e � l'exterieur
 	
 	// coef
-	public double coef_U = 0.33; // (W/m�K) coefficient de transmission thermique en W par m� expos� et par � de difference (0.33)
+	public double coef_U = 1; // (W/m�K) coefficient de transmission thermique en W par m� expos� et par � de difference (0.33)
 	public double joule_factor = 1900;  // 1�C HU = 1900 joules, 1W = 1J/s
 	
 	// energy and power
 	public double room_energy = -1; // initial value 
 	
 	// application
-	boolean heating= false;
+	boolean heating= true;
 
 	// external energy
 	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
