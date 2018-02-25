@@ -9,4 +9,6 @@ public class Valve_6 {
 	public static final int VALVE_COLD_100 = 20;
 	public static final int VALVE_COLD_0 = 52;
 	
+	public static final int VALVE_DB=20;
+	
 }
