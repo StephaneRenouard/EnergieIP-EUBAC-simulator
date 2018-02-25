@@ -1,4 +1,4 @@
-package com.energieip.eubac.simulator.valve;
+package com.energieip.eubac.simulator.valves;
 
 public class Valve_6 {
 	
@@ -7,7 +7,6 @@ public class Valve_6 {
 	public static final int VALVE_HOT_0 = 70;
 	
 	public static final int VALVE_COLD_100 = 20;
-	public static final int VALVE_COLD_0 = 20;
+	public static final int VALVE_COLD_0 = 52;
 	
-
 }
