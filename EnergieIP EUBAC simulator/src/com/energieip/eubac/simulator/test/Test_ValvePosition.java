@@ -1,17 +1,17 @@
 package com.energieip.eubac.simulator.test;
 
-public class TestValvePosition {
+public class Test_ValvePosition {
 
 	public static void main(String[] args) {
 		
-		new TestValvePosition();
+		new Test_ValvePosition();
 
 	}
 	
 	/**
 	 * default constructor
 	 */
-	public TestValvePosition() {
+	public Test_ValvePosition() {
 		
 		int _valve_position = 512;
 		double valve_position = _valve_position/10 ;

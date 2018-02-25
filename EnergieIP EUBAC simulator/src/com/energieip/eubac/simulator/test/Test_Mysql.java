@@ -2,18 +2,18 @@ package com.energieip.eubac.simulator.test;
 
 import com.energieip.eubac.mysql.MysqlConnector;
 
-public class TestMysql {
+public class Test_Mysql {
 
 	public static void main(String[] args) {
 		
-		new TestMysql();
+		new Test_Mysql();
 
 	}
 	
 	/**
 	 * Default constructor
 	 */
-	public TestMysql() {
+	public Test_Mysql() {
 		
 		new MysqlConnector();
 		
