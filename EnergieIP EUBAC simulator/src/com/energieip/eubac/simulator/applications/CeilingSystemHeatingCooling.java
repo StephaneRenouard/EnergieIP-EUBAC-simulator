@@ -44,7 +44,8 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	public void setRoomTemperature(int room_temp){
 		
 		// room temp must be in 1/10�C 
-		energieAPI.setData1(room_temp);
+		//energieAPI.setData1(room_temp);
+		energieAPI.set_data1(room_temp);
 		
 	}
 	
@@ -54,12 +55,15 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	 */
 	public int getValvePosition(boolean heating) {
 		
-		int position=0;
+		double units=0.0;
+		double d_percentage=0.0;
+		int i_percentage=0;
 		int max = 0;;
 		int min = 0;
 		
 		// get valve position
 		int position_real = energieAPI.get_HVAC_input_0_10V(HVAC_SA);
+		
 		
 		if(heating){
 			max = Valve_6.VALVE_HOT_100;
@@ -69,9 +73,28 @@ public class CeilingSystemHeatingCooling implements Runnable{
 			min = Valve_6.VALVE_COLD_0;
 		}
 		
-		position = (100/(max-min))*(position_real-min);
+		//percentage =((100/(max-min))*((position_real/10)-min))/100;
 		
-		return position;
+		System.out.println("min="+min + " max=" + max);
+		
+		units = (100.0/(max-min));
+		System.out.println("units="+units);
+			 
+		d_percentage=((position_real/10)-min)*units;
+		System.out.println("d_percentage="+d_percentage);
+		
+		
+		i_percentage = (int) Math.round(d_percentage);
+		
+		if(i_percentage>100){
+			i_percentage = 100;
+		}else if(i_percentage<0){
+			i_percentage=0;
+		}
+		
+		
+		
+		return i_percentage;
 		
 	}
 	
