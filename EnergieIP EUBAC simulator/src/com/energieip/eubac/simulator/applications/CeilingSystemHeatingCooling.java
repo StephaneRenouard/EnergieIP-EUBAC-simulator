@@ -1,7 +1,7 @@
 package com.energieip.eubac.simulator.applications;
 
 import com.energieip.api.EnergieAPI;
-import com.energieip.eubac.simulator.valve.Valve_6;
+import com.energieip.eubac.simulator.valves.Valve_6;
 
 import fr.handco.lib.time.Time;
 
