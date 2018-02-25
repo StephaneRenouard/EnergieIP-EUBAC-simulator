@@ -156,32 +156,37 @@ public class Simulated_room implements Runnable{
 				if(application){
 					// valve position is in 1/10 (so have to be divided by 10)
 					valve_percentage = ceilingSystemHeatingCooling.getValvePosition(heating);
+					
+					if(DEBUG){
+						System.out.println(Time.timeStamp("[Simulated room] valve position=" + valve_percentage + "%"));
+					}
+					
 					double application_energy = Utilities.compute_application_energy(valve_percentage, application_power, SLEEPING_TIME);
+
+					if(DEBUG){
+						System.out.println(Time.timeStamp("[Simulated room] application energy=" + application_energy + "J"));
+					}
 					
 					if(heating){
 						room_energy+=application_energy;
 					}else {// cooling
 						room_energy-=application_energy;
-					}	
-						
-					if(DEBUG){
-						System.out.println(Time.timeStamp("[Simulated room] application energy=" + application_energy + " J"));
 					}
+					
 				}
 				
 				// then compute thermal transfers
 			  
-			    	// remove energy for outside transfer
-			    	room_energy = Utilities.compute_Inside_Outside_Energy_Transfert(room_energy, temp_room_outside, coef_U, room_surface_ext, SLEEPING_TIME, joule_factor );	    	
-			    	if(DEBUG){
-						System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "C" + ")"));
-					}
+			    // remove energy for outside transfer
+			    room_energy = Utilities.compute_Inside_Outside_Energy_Transfert(room_energy, temp_room_outside, coef_U, room_surface_ext, SLEEPING_TIME, joule_factor );	    	
 			    	
-			  	
-			  
-			    temp_room_inside = Utilities.compute_temp_from_energy(room_energy, joule_factor);
+			    if(DEBUG){
+					System.out.println(Time.timeStamp("[Simulated room] computing thermal transfer (outside temp=" + temp_room_outside + "C" + ")"));
+				}
+			    	
+			  	temp_room_inside = Utilities.compute_temp_from_energy(room_energy, joule_factor);
 			    				
-				System.out.println(Time.timeStamp("[Simulated room] TEMPERATURE INTERIEUR=" + temp_room_inside));
+				System.out.println(Time.timeStamp("[Simulated room] TEMPERATURE INTERIEURE=" + temp_room_inside));
 				
 				// return room temp
 				if(application){
