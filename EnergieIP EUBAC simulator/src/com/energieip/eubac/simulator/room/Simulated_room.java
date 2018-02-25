@@ -88,7 +88,7 @@ public class Simulated_room implements Runnable{
 		
 		
 		// add an external heating/cooling application
-		application = false;
+		application = true;
 		ceilingSystemHeatingCooling = _ceilingSystemHeatingCooling; // set as local
 		application_power = ceilingSystemHeatingCooling.getSystemPower();
 		
