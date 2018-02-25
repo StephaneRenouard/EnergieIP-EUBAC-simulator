@@ -38,7 +38,7 @@ public class CeilingSystemHeatingCooling implements Runnable{
 	}
 	
 	/**
-	 * set Room temperature (in 1/10�C)
+	 * set Room temperature (in 1/10 C)
 	 * @param room_temp
 	 */
 	public void setRoomTemperature(int room_temp){

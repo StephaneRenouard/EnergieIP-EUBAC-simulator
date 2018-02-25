@@ -20,40 +20,40 @@ public class Simulated_room implements Runnable{
 	 * Initial params
 	 */
 	// temp
-	public double temp_room_inside_initial = 19.0; // °C
-	public double temp_room_outside_initial = 5.0; // �C
+	public double temp_room_inside_initial = 23.5; // C
+	public double temp_room_outside_initial = 30.0; // C
 	
 	// room
 	public double room_L = 4; // Longueur (m)
 	public double room_l = 3; // largeur (m)
-	public double room_L_ext = room_L; // Longueur expos�e sur l'exterieur (m)
-	public double room_l_ext = room_l; // largeur expos�e sur l'exterieur (m)
+	public double room_L_ext = room_L; // Longueur exposee sur l'exterieur (m)
+	public double room_l_ext = room_l; // largeur exposee sur l'exterieur (m)
 	public double room_surface = room_L * room_l; // superficie (m�)
 	public double room_height = 2.8; // hauteur du plafond (m)
 	public double room_volume = room_surface*room_height; // (m3)
-	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m�) superficie expos�e � l'exterieur
+	public double room_surface_ext = (room_L_ext*room_height) + (room_l_ext*room_height); // (m�) superficie exposee a l'exterieur
 	
 	// coef
-	public double coef_U = 0.66; // (W/m�K) coefficient de transmission thermique en W par m� expos� et par � de difference (0.33)
-	public double joule_factor = 1900;  // 1�C HU = 1900 joules, 1W = 1J/s
+	public double coef_U = 0.66; // (W/m2K) coefficient de transmission thermique en W par m2 expose et par C de difference (0.33)
+	public double joule_factor = 1900;  // 1C HU = 1900 joules, 1W = 1J/s
 	
 	// energy and power
 	public double room_energy = -1; // initial value 
 	
 	// application
-	boolean heating= true;
+	boolean heating= false;
 
 	// external energy
 	public double human_body_energy = 60; // (W) 60W par occupant humain en apport de chaleur
 	public double human_number = 0; // nombre d'humain dans la piece
-	public double room_external_energy = 0; // (W) energie externe apport�e dans la piece, i.e. ordinateur 
+	public double room_external_energy = 0; // (W) energie externe apportee dans la piece, i.e. ordinateur 
 	
 	/*
 	 * simulation params
 	 */
 	// temp
-	public double temp_room_inside = temp_room_inside_initial; // �C
-	public double temp_room_outside = temp_room_outside_initial; // �C
+	public double temp_room_inside = temp_room_inside_initial; // C
+	public double temp_room_outside = temp_room_outside_initial; // C
 		
 	// time
 	public int time_factor = 1;
