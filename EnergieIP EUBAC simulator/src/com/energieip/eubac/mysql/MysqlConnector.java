@@ -18,8 +18,9 @@ public class MysqlConnector {
 	
     static Statement statement;
     
-    final String TABLE_NAME = "20180225_c_1";
-	
+    final String TABLE_NAME = "20180228_af_1";
+    //final String TABLE_NAME = "20180228_c_6";
+    
 	/**
 	 * Default constructor
 	 */
